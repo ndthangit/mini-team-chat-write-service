@@ -1,0 +1,71 @@
+spring:
+  config:
+    import: optional:file:../.env[.properties],file:.env[.properties]
+  application:
+    name: chat-write-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    properties:
+      schema:
+        registry:
+          url: ${KAFKA_SCHEMA_REGISTRY_URL}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+
+    consumer:
+      group-id: ${spring.application.name}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        specific.avro.reader: false
+
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    # Thêm tham số gán cứng múi giờ vào cuối URL
+    url: jdbc:postgresql://${SQL_DB_HOST}:${SQL_DB_PORT}/${POSTGRES_DB}?TimeZone=Asia/Ho_Chi_Minh
+    username: ${SQL_DB_USER}
+    password: ${SQL_DB_PASS}
+    hikari: # reference: https://github:com/brettwooldridge/HikariCP#configuration-knobs-baby:
+      maxLifetime: 30000
+      leakDetectionThreshold: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true # not recommended for production
+        order_inserts: true
+        jdbc:
+          batch_size: 50
+    show-sql: true
+  
+
+
+
+  security:
+    oauth2:
+      resource server:
+        jwt:
+          issuer-uri: ${KEYCLOAK_URI}/realms/${KEYCLOAK_REALM:your-realm}
+          jwk-set-uri: ${KEYCLOAK_URI}/realms/${KEYCLOAK_REALM:your-realm}/protocol/openid-connect/certs
+
+
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework: INFO
+      springframework.security: TRACE
+server:
+  port: ${SPRING_PORT}
+
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
