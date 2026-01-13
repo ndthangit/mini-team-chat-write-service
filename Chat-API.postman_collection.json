@@ -1,0 +1,195 @@
+{
+    "info": {
+        "name": "Chat Write Service API",
+        "description": "REST API endpoints for Chat Application",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Conversations",
+            "item": [
+                {
+                    "name": "Create Conversation",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Team Discussion\",\n  \"type\": \"GROUP\",\n  \"metadata\": null,\n  \"participantEmails\": [\n    \"alice@example.com\",\n    \"bob@example.com\",\n    \"charlie@example.com\"\n  ]\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Conversation by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations/{{conversationId}}",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations",
+                                "{{conversationId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Conversations",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations/user/alice@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations",
+                                "user",
+                                "alice@example.com"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Conversation",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations/{{conversationId}}",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations",
+                                "{{conversationId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Participant",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations/{{conversationId}}/participants?email=david@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations",
+                                "{{conversationId}}",
+                                "participants"
+                            ],
+                            "query": [
+                                {
+                                    "key": "email",
+                                    "value": "david@example.com"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Remove Participant",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations/{{conversationId}}/participants/david@example.com",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations",
+                                "{{conversationId}}",
+                                "participants",
+                                "david@example.com"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Messages",
+            "item": [
+                {
+                    "name": "Get Conversation Messages",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/conversations/{{conversationId}}/messages?page=0&size=50",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "conversations",
+                                "{{conversationId}}",
+                                "messages"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "50"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "conversationId",
+            "value": "PUT_YOUR_CONVERSATION_ID_HERE",
+            "type": "string"
+        }
+    ]
+}
